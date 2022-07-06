@@ -1,12 +1,11 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useMemo, useState } from "react";
 
-type count = number;
 
 interface MediaQueryComponentProps {
     children?: React.ReactNode | ((matches: boolean) => React.ReactNode);
     orientation?: string;
-    minResolution?: number | `${count}dppx`;
-    maxResolution?: number | `${count}dppx`;
+    minResolution?: number | `${number}dppx`;
+    maxResolution?: number | `${number}dppx`;
     minWidth?: number;
     maxWidth?: number;
     minHeight?: number;
@@ -59,11 +58,10 @@ export const MediaQuery: FC<MediaQueryComponentProps> = ({
     children,
     ...props
 }) => {
-    const [matches] = useState<boolean>(
-        useMediaQuery({ query: parseAndGlue(props) })
-    );
 
-    return ( matches
+    const matches = useMediaQuery({ query: parseAndGlue(props) });
+
+    return (matches
         ?
         <div>
             {typeof (children) == "function" ? children(matches) : children}
@@ -73,4 +71,7 @@ export const MediaQuery: FC<MediaQueryComponentProps> = ({
     );
 };
 
-export const useMediaQuery = ({ query }: MediaQueryHookProps) => window.matchMedia(query).matches;
+export const useMediaQuery = ({ query }: MediaQueryHookProps) => useMemo<boolean>(() => {
+    return window.matchMedia(query).matches
+},
+    [window.innerHeight, window.innerWidth]);
