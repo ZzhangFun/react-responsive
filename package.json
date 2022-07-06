@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ZzhangFun/react-response.git"
+    "url": "git+https://github.com/ZzhangFun/react-responsive.git"
   },
   "devDependencies": {
     "@types/jest": "^28.1.3",
