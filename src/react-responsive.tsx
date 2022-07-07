@@ -54,7 +54,7 @@ function parseAndGlue(props: {}): string {
     return str;
 }
 
-export const MediaQuery: FC<MediaQueryComponentProps> = ({
+const MediaQuery: FC<MediaQueryComponentProps> = ({
     children,
     ...props
 }) => {
@@ -75,3 +75,5 @@ export const useMediaQuery = ({ query }: MediaQueryHookProps) => useMemo<boolean
     return window.matchMedia(query).matches
 },
     [window.innerHeight, window.innerWidth]);
+
+export default MediaQuery

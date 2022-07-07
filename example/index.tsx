@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { MediaQuery, useMediaQuery } from "../src/react-responsive";
+import MediaQuery, { useMediaQuery } from "../src/react-responsive";
 
 
 
