@@ -1,6 +1,6 @@
 {
   "name": "@doux/react-responsive",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "source": "src/react-responsive.tsx",
   "main": "dist/react-responsive.js",
   "module": "dist/react-responsive.mjs",
@@ -9,7 +9,7 @@
   "amdName": "ReactResponsive",
   "scripts": {
     "build": "microbundle --no-compress --jsx --globals react=React --strict",
-    "test":"echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -29,5 +29,8 @@
   "peerDependencies": {
     "react": ">=16.8"
   },
-  "files": ["dist", "README.md"]
+  "files": [
+    "dist",
+    "README.md"
+  ]
 }
