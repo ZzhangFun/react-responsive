@@ -2,7 +2,7 @@ import React, { FC, useEffect, useMemo, useState } from "react";
 
 
 interface MediaQueryComponentProps {
-    children?: React.ReactNode | ((matches: boolean) => React.ReactNode);
+    children: React.ReactNode | ((matches: boolean) => React.ReactNode);
     orientation?: string;
     minResolution?: number | `${number}dppx`;
     maxResolution?: number | `${number}dppx`;
@@ -54,26 +54,17 @@ function parseAndGlue(props: {}): string {
     return str;
 }
 
-const MediaQuery: FC<MediaQueryComponentProps> = ({
-    children,
-    ...props
-}) => {
-
+const MediaQuery = ({children, ...props}: MediaQueryComponentProps) => {
     const matches = useMediaQuery({ query: parseAndGlue(props) });
 
-    return (matches
-        ?
-        <div>
-            {typeof (children) == "function" ? children(matches) : children}
-        </div>
-        :
-        null
+    return (typeof(children) == "function" ?
+                <>children(matches)</>
+            :
+            matches ? <> children </> : null
+
     );
 };
 
-export const useMediaQuery = ({ query }: MediaQueryHookProps) => useMemo<boolean>(() => {
-    return window.matchMedia(query).matches
-},
-    [window.innerHeight, window.innerWidth]);
+export const useMediaQuery = ({ query }: MediaQueryHookProps) => window.matchMedia(query).matches;
 
 export default MediaQuery
