@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo, useState } from "react";
+import React from "react";
 
 
 interface MediaQueryComponentProps {
@@ -58,9 +58,9 @@ const MediaQuery = ({children, ...props}: MediaQueryComponentProps) => {
     const matches = useMediaQuery({ query: parseAndGlue(props) });
 
     return (typeof(children) == "function" ?
-                <>children(matches)</>
+                <>{children(matches)}</>
             :
-            matches ? <> children </> : null
+            matches ? <> {children} </> : null
 
     );
 };
