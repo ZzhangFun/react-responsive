@@ -1,6 +1,6 @@
 {
   "name": "@doux/react-responsive",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "source": "src/react-responsive.tsx",
   "main": "dist/react-responsive.js",
   "module": "dist/react-responsive.mjs",
