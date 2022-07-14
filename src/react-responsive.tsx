@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
+type RequireAtLeastOne<T, Keys extends keyof T = keyof T> =
+    Pick<T, Exclude<keyof T, Keys>>
+    & {
+    [K in Keys]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<Keys, K>>>
+}[Keys]
 
-interface MediaQueryComponentProps {
-    children: React.ReactNode | ((matches: boolean) => React.ReactNode);
+interface MediaQueryProps {
     orientation?: string;
     minResolution?: number | `${number}dppx`;
     maxResolution?: number | `${number}dppx`;
@@ -12,26 +16,21 @@ interface MediaQueryComponentProps {
     maxHeight?: number;
 }
 
+type MediaQueryComponentProps = {
+    children: React.ReactNode | ((matches: boolean) => React.ReactNode);
+} & RequireAtLeastOne<MediaQueryProps>
+
 interface MediaQueryHookProps {
     query: string;
 }
 
 function parseAndGlue(props: {}): string {
-    function camelCaseToRegular(str: string): string {
-        let newStr: string = "";
-
-        for (let i = 0; i < str.length; ++i) {
-            newStr +=
-                str[i].toUpperCase() === str[i] ? "-" + str[i].toLowerCase() : str[i];
-        }
-
-        return newStr;
-    }
+    const camelCaseToRegular = (str: string) => str.replace(/[A-Z]/g, (match, index) => (index !== 0 ? '-' : '') + match.toLowerCase())
 
     let str: string = "";
 
     for (let [key, value] of Object.entries(props)) {
-        if (str != "") str += " and ";
+        if (str !== "") str += " and ";
         switch (key) {
             case "minWidth":
             case "maxWidth":
@@ -54,17 +53,30 @@ function parseAndGlue(props: {}): string {
     return str;
 }
 
+export const useMediaQuery = ({ query }: MediaQueryHookProps): boolean => {
+    const [mql, setMql] = useState(window.matchMedia(query));
+    function resize() {
+        setMql(() => window.matchMedia(query))
+    }
+    useEffect(() => {
+        mql.addEventListener('change', resize)
+        return () => {
+            mql.removeEventListener('change', resize)
+        }
+    }, [])
+    return mql.matches
+}
+
 const MediaQuery = ({children, ...props}: MediaQueryComponentProps) => {
     const matches = useMediaQuery({ query: parseAndGlue(props) });
 
-    return (typeof(children) == "function" ?
-                <>{children(matches)}</>
+    return (typeof(children) === "function" ?
+            <>{children(matches)}</>
             :
-            matches ? <> {children} </> : null
+            matches ? <>{children}</> : null
 
     );
 };
 
-export const useMediaQuery = ({ query }: MediaQueryHookProps) => window.matchMedia(query).matches;
 
 export default MediaQuery
