@@ -27,30 +27,20 @@ interface MediaQueryHookProps {
 function parseAndGlue(props: {}): string {
     const camelCaseToRegular = (str: string) => str.replace(/[A-Z]/g, (match, index) => (index !== 0 ? '-' : '') + match.toLowerCase())
 
-    let str: string = "";
-
-    for (let [key, value] of Object.entries(props)) {
-        if (str !== "") str += " and ";
+    return Object.entries(props).map(([key, value]) => {
         switch (key) {
             case "minWidth":
             case "maxWidth":
             case "minHeight":
             case "maxHeight":
-                str += `(${camelCaseToRegular(key)}: ${value}px)`;
-                break;
+                return `(${camelCaseToRegular(key)}: ${value}px)`;
             case "minResolution":
             case "maxResolution":
-                str +=
-                    typeof value === "number"
-                        ? `(${camelCaseToRegular(key)}: ${value}dppx)`
-                        : `(${camelCaseToRegular(key)}: ${value})`;
-                break;
+                return typeof value === "number" ? `(${camelCaseToRegular(key)}: ${value}dppx)` : `(${camelCaseToRegular(key)}: ${value})`;
             case "orientation":
-                str += `(${key}: ${value})`;
-                break;
+                return `(${key}: ${value})`;
         }
-    }
-    return str;
+    }).join(" and ")
 }
 
 export const useMediaQuery = ({ query }: MediaQueryHookProps): boolean => {
