@@ -1,15 +1,18 @@
-by Doux
+#by Doux
 Just typing media query :)
-v. 0.1.1
-
+##v. 0.1.2
+____
 stack:
     js,
     react,
     typescript
 
-bindler:
-    microbundle
+bundler:
+    microbundle(*rollup*)
 
-thats npm module
-
+that's npm module
+____
 use command npm install
+____
+##**Example**
+[example](/example/index.tsx)

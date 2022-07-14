@@ -44,17 +44,19 @@ function parseAndGlue(props: {}): string {
 }
 
 export const useMediaQuery = ({ query }: MediaQueryHookProps): boolean => {
-    const [mql, setMql] = useState(window.matchMedia(query));
-    function resize() {
-        setMql(() => window.matchMedia(query))
-    }
+    const [matches, setMatches] = useState(() => window.matchMedia(query).matches);
     useEffect(() => {
+        const mql = window.matchMedia(query)
+        setMatches(mql.matches)
+        function resize(mql: MediaQueryListEvent) {
+            setMatches(mql.matches)
+        }
         mql.addEventListener('change', resize)
         return () => {
             mql.removeEventListener('change', resize)
         }
-    }, [])
-    return mql.matches
+    }, [query])
+    return matches
 }
 
 const MediaQuery = ({children, ...props}: MediaQueryComponentProps) => {
