@@ -1,20 +1,3 @@
-# by Doux
-## v. 0.1.2
-____
-stack:
-    js,
-    react,
-    typescript
-
-bundler:
-    microbundle(*rollup*)
-
-that's npm module
-____
-use command npm install
-____
-## **Example**
-```jsx
 import React from "react";
 import ReactDOM from "react-dom/client";
 import MediaQuery, { useMediaQuery } from "../src/react-responsive";
@@ -65,4 +48,3 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(<App />);
-```
