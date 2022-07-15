@@ -5,7 +5,7 @@
   "main": "dist/react-responsive.js",
   "module": "dist/react-responsive.mjs",
   "unpkg": "dist/react-responsive.js",
-  "types": "dist/react-responsive.d.ts",
+  "types": "dist/src/react-responsive.d.ts",
   "amdName": "ReactResponsive",
   "scripts": {
     "build": "microbundle --no-compress --jsx --globals react=React --strict",
